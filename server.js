@@ -79,7 +79,7 @@ app.get('/', async (req, res) => {
       topRated: topRated.results || []
     });
 
-    res.send(renderLayout('FilmeStar — Filme online subtitrate in Romana HD', content));
+    res.send(renderLayout('CinemaVibe – Filme și Seriale Online, Noutăți Cinema 2026', content));
   } catch (err) {
     console.error('Home Error:', err);
     res.status(500).send('A apărut o eroare pe server.');
@@ -103,7 +103,7 @@ app.get('/search', async (req, res) => {
   }
 });
 
-// Halaman Detail Film
+// Halaman Detail Film (Format Judul SEO Baru)
 app.get('/movie/:id', async (req, res) => {
   try {
     const movieId = req.params.id;
@@ -121,7 +121,12 @@ app.get('/movie/:id', async (req, res) => {
       similar: similar.results || []
     });
 
-    res.send(renderLayout(movie.title || 'Detalii Film', content));
+    // Format judul sesuai permintaan: FILMUL! — Judul (Tahun) FILM ONLINE SUBRATAT IN ROMÂNĂ HD 1080P
+    const movieTitle = movie.title || 'Detalii Film';
+    const movieYear = movie.release_date ? movie.release_date.split('-')[0] : '2026';
+    const customTitle = `FILMUL! — ${movieTitle} (${movieYear}) FILM ONLINE SUBTITRAT IN ROMÂNĂ HD 1080P`;
+
+    res.send(renderLayout(customTitle, content));
   } catch (err) {
     console.error('Movie Detail Error:', err);
     res.status(404).send('Filmul nu a fost găsit.');
@@ -173,5 +178,5 @@ app.get('/actor/:id', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Serverul CinemaVibe Frulează pe portul ${PORT}`);
+  console.log(`Serverul CinemaVibe rulează pe portul ${PORT}`);
 });
